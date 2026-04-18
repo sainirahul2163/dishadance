@@ -42,17 +42,29 @@ const scrollToPricing = () => {
 
 const Index = () => {
   const heroRef = useRef<HTMLElement>(null);
-  const [showStickyCta, setShowStickyCta] = useState(false);
+  const footerRef = useRef<HTMLElement>(null);
+  const [heroVisible, setHeroVisible] = useState(true);
+  const [footerVisible, setFooterVisible] = useState(false);
+  const showStickyCta = !heroVisible && !footerVisible;
 
   useEffect(() => {
     const hero = heroRef.current;
-    if (!hero) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => setShowStickyCta(!entry.isIntersecting),
+    const footer = footerRef.current;
+    if (!hero || !footer) return;
+    const heroObs = new IntersectionObserver(
+      ([entry]) => setHeroVisible(entry.isIntersecting),
       { threshold: 0, rootMargin: "0px 0px -10% 0px" }
     );
-    observer.observe(hero);
-    return () => observer.disconnect();
+    const footerObs = new IntersectionObserver(
+      ([entry]) => setFooterVisible(entry.isIntersecting),
+      { threshold: 0 }
+    );
+    heroObs.observe(hero);
+    footerObs.observe(footer);
+    return () => {
+      heroObs.disconnect();
+      footerObs.disconnect();
+    };
   }, []);
 
   return (
