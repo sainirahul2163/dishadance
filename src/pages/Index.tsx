@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { VideoPlaceholder } from "@/components/dance/VideoPlaceholder";
 import { Button } from "@/components/ui/button";
 import heroDancer from "@/assets/hero-dancer.jpg";
@@ -41,17 +42,29 @@ const scrollToPricing = () => {
 
 const Index = () => {
   const heroRef = useRef<HTMLElement>(null);
-  const [showStickyCta, setShowStickyCta] = useState(false);
+  const footerRef = useRef<HTMLElement>(null);
+  const [heroVisible, setHeroVisible] = useState(true);
+  const [footerVisible, setFooterVisible] = useState(false);
+  const showStickyCta = !heroVisible && !footerVisible;
 
   useEffect(() => {
     const hero = heroRef.current;
-    if (!hero) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => setShowStickyCta(!entry.isIntersecting),
+    const footer = footerRef.current;
+    if (!hero || !footer) return;
+    const heroObs = new IntersectionObserver(
+      ([entry]) => setHeroVisible(entry.isIntersecting),
       { threshold: 0, rootMargin: "0px 0px -10% 0px" }
     );
-    observer.observe(hero);
-    return () => observer.disconnect();
+    const footerObs = new IntersectionObserver(
+      ([entry]) => setFooterVisible(entry.isIntersecting),
+      { threshold: 0 }
+    );
+    heroObs.observe(hero);
+    footerObs.observe(footer);
+    return () => {
+      heroObs.disconnect();
+      footerObs.disconnect();
+    };
   }, []);
 
   return (
@@ -382,7 +395,7 @@ const Index = () => {
       </section>
 
       {/* ============== FOOTER ============== */}
-      <footer className="bg-gradient-to-br from-[hsl(330_60%_20%)] to-[hsl(320_70%_15%)] text-white py-12 md:py-16">
+      <footer ref={footerRef} className="bg-gradient-to-br from-[hsl(330_60%_20%)] to-[hsl(320_70%_15%)] text-white py-12 md:py-16">
         <div className="container max-w-5xl mx-auto px-4 text-center">
           <h3 className="font-display font-black text-3xl md:text-4xl mb-2">
             Disha's <span className="text-[hsl(var(--gold))] italic">Dance</span> Academy
@@ -393,7 +406,7 @@ const Index = () => {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-10">
             <a
-              href="https://wa.me/919999999999"
+              href="https://wa.me/917719917935"
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[hsl(140_70%_45%)] hover:bg-[hsl(140_70%_40%)] text-white font-bold transition-all hover:scale-105 shadow-lg"
@@ -412,8 +425,19 @@ const Index = () => {
             </a>
           </div>
 
-          <div className="border-t border-white/15 pt-6 text-xs md:text-sm text-white/60">
-            © {new Date().getFullYear()} Disha's Dance Academy. Made with 💖 for amazing women & kids of India.
+          {/* Footer nav links */}
+          <div className="border-t border-white/15 pt-8">
+            <nav className="grid grid-cols-2 sm:flex sm:flex-wrap sm:justify-center gap-x-8 gap-y-3 text-sm md:text-base mb-6">
+              <Link to="/" className="text-white/90 hover:text-[hsl(var(--gold))] transition-colors">🏠 Home</Link>
+              <Link to="/terms" className="text-white/90 hover:text-[hsl(var(--gold))] transition-colors">📋 Terms & Conditions</Link>
+              <Link to="/privacy" className="text-white/90 hover:text-[hsl(var(--gold))] transition-colors">🔒 Privacy Policy</Link>
+              <Link to="/contact" className="text-white/90 hover:text-[hsl(var(--gold))] transition-colors">📞 Contact Us</Link>
+            </nav>
+
+            <div className="text-xs md:text-sm text-white/60 space-y-1">
+              <p>© 2025 Disha's Dance Academy. All rights reserved.</p>
+              <p>Made with 💃 for Women & Kids</p>
+            </div>
           </div>
         </div>
       </footer>
