@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -115,9 +115,12 @@ const Checkout = () => {
       {/* Top trust bar */}
       <header className="border-b border-border/60 bg-white/90 backdrop-blur sticky top-0 z-30">
         <div className="container max-w-2xl mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="font-display font-black text-base md:text-lg text-foreground">
+          <Link
+            to="/"
+            className="font-display font-black text-base md:text-lg text-foreground hover:opacity-80 transition-opacity"
+          >
             Disha's <span className="text-magenta italic">Dance</span> Academy 💃
-          </div>
+          </Link>
           <div className="flex items-center gap-1.5 text-[11px] md:text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full">
             <Lock className="w-3.5 h-3.5" />
             100% Secure Checkout
@@ -139,6 +142,12 @@ const Checkout = () => {
           <h2 className="font-display font-black text-xl md:text-2xl text-foreground leading-tight">
             {plan.name}
           </h2>
+          <Link
+            to="/#pricing"
+            className="inline-block mt-1 text-xs text-muted-foreground underline hover:text-magenta transition-colors"
+          >
+            🔄 Change Plan
+          </Link>
           <div className="mt-3 space-y-1.5 text-sm text-foreground/80">
             <div className="flex items-center gap-2">
               <Calendar className="w-4 h-4 text-magenta" />
@@ -260,9 +269,14 @@ const Checkout = () => {
           </div>
         </section>
 
-        <p className="text-center text-[11px] text-muted-foreground flex items-center justify-center gap-1.5 pt-2">
+        <a
+          href="https://wa.me/917719917935"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-center text-[11px] text-muted-foreground hover:text-magenta transition-colors flex items-center justify-center gap-1.5 pt-2"
+        >
           <Smartphone className="w-3 h-3" /> WhatsApp support: +91 77199 17935
-        </p>
+        </a>
       </div>
     </main>
   );
