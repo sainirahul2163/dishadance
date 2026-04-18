@@ -334,10 +334,11 @@ const Index = () => {
               </ul>
 
               <Button
+                asChild
                 size="lg"
                 className="w-full bg-gradient-primary hover:opacity-95 text-primary-foreground font-bold rounded-full py-6 text-base shadow-pink"
               >
-                Abhi Join Karo 💃
+                <Link to="/checkout?plan=starter">Abhi Join Karo 💃</Link>
               </Button>
             </div>
 
@@ -380,10 +381,11 @@ const Index = () => {
               </ul>
 
               <Button
+                asChild
                 size="lg"
                 className="w-full bg-white hover:bg-white/95 text-magenta font-bold rounded-full py-6 text-base shadow-gold"
               >
-                Abhi Join Karo 💖
+                <Link to="/checkout?plan=pro">Abhi Join Karo 💖</Link>
               </Button>
             </div>
           </div>
