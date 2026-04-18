@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { VideoPlaceholder } from "@/components/dance/VideoPlaceholder";
 import { Button } from "@/components/ui/button";
 import heroDancer from "@/assets/hero-dancer.jpg";
