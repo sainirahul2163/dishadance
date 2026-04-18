@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import { VideoPlaceholder } from "@/components/dance/VideoPlaceholder";
 import { Button } from "@/components/ui/button";
 import heroDancer from "@/assets/hero-dancer.jpg";
@@ -403,8 +404,15 @@ const Index = () => {
         </div>
       </footer>
 
-      {/* Sticky mobile CTA */}
-      <div className="fixed bottom-4 left-4 right-4 z-50 md:hidden">
+      {/* Sticky mobile CTA — hidden while hero is in view */}
+      <div
+        className={`fixed bottom-4 left-4 right-4 z-50 md:hidden transition-all duration-300 ${
+          showStickyCta
+            ? "opacity-100 translate-y-0 pointer-events-auto"
+            : "opacity-0 translate-y-4 pointer-events-none"
+        }`}
+        aria-hidden={!showStickyCta}
+      >
         <Button
           onClick={scrollToPricing}
           size="lg"
