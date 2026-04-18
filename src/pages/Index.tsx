@@ -40,10 +40,24 @@ const scrollToPricing = () => {
 };
 
 const Index = () => {
+  const heroRef = useRef<HTMLElement>(null);
+  const [showStickyCta, setShowStickyCta] = useState(false);
+
+  useEffect(() => {
+    const hero = heroRef.current;
+    if (!hero) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setShowStickyCta(!entry.isIntersecting),
+      { threshold: 0, rootMargin: "0px 0px -10% 0px" }
+    );
+    observer.observe(hero);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
       {/* ============== HERO ============== */}
-      <section className="relative bg-gradient-hero pt-8 pb-16 md:pt-14 md:pb-24">
+      <section ref={heroRef} className="relative bg-gradient-hero pt-8 pb-16 md:pt-14 md:pb-24">
         {/* Floating decorations */}
         <div className="absolute top-20 left-4 text-4xl md:text-6xl animate-float-slow opacity-70">💃</div>
         <div className="absolute top-32 right-6 text-4xl md:text-6xl animate-float-slow opacity-70" style={{ animationDelay: "1.5s" }}>🎵</div>
