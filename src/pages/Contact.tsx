@@ -125,11 +125,11 @@ const Contact = () => {
               />
             </div>
 
-            <div className="mt-10 grid sm:grid-cols-2 gap-3">
+            <div className="mt-10">
               <Button
                 asChild
                 size="lg"
-                className="bg-[hsl(142,70%,45%)] hover:bg-[hsl(142,70%,40%)] text-white shadow-soft"
+                className="w-full bg-[hsl(142,70%,45%)] hover:bg-[hsl(142,70%,40%)] text-white shadow-soft"
               >
                 <a
                   href="https://wa.me/917719917935"
@@ -137,15 +137,6 @@ const Contact = () => {
                   rel="noopener noreferrer"
                 >
                   <MessageCircle className="w-5 h-5" /> WhatsApp Us
-                </a>
-              </Button>
-              <Button
-                asChild
-                size="lg"
-                className="bg-gradient-primary text-primary-foreground hover:opacity-90 shadow-pink"
-              >
-                <a href="mailto:dishainfluencer@gmail.com">
-                  <Mail className="w-5 h-5" /> Send Email
                 </a>
               </Button>
             </div>
