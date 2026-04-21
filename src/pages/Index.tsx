@@ -103,7 +103,16 @@ const Index = () => {
               <img src={heroDancer} alt="Disha dance teacher" width={1024} height={1024}
                 className="w-full h-full object-cover rounded-full border-4 border-white shadow-pink animate-wiggle" />
             </div>
-            <VideoPlaceholder label="▶ Disha Ma'am Ka Message Suno (1 min)" variant="hero" />
+            <div className="w-full overflow-hidden rounded-3xl shadow-pink aspect-video bg-black">
+              <iframe
+                className="w-full h-full"
+                src="https://www.youtube.com/embed/sKn2C-45PmU?rel=0&controls=1&modestbranding=1"
+                title="Disha Ma'am Ka Message"
+                frameBorder={0}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
+            </div>
           </div>
 
           {/* CTA */}
