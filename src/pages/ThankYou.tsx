@@ -10,11 +10,11 @@ import {
   Sparkles,
 } from "lucide-react";
 
-type PlanKey = "starter" | "pro";
+type PlanKey = "starter" | "pro" | "unknown";
 
-const PLANS: Record<PlanKey, { name: string; price: string; sessions: string }> = {
-  starter: { name: "Starter Plan — 4 Sessions", price: "₹699", sessions: "4 sessions per month" },
-  pro: { name: "Pro Plan — 8 Sessions", price: "₹1,199", sessions: "8 sessions per month" },
+const PLAN_DETAILS: Record<Exclude<PlanKey, "unknown">, { name: string; sessions: string; defaultPrice: string }> = {
+  starter: { name: "Starter Plan — 4 Sessions", sessions: "4 sessions per month", defaultPrice: "699" },
+  pro: { name: "Pro Plan — 8 Sessions", sessions: "8 sessions per month", defaultPrice: "1199" },
 };
 
 const SUNDAY_SLOTS_STARTER = ["4:00 PM – 5:00 PM", "8:15 PM – 9:15 PM"];
@@ -71,8 +71,22 @@ const SlotCard = ({ time }: { time: string }) => (
 
 const ThankYou = () => {
   const [params] = useSearchParams();
-  const planKey: PlanKey = params.get("plan") === "pro" ? "pro" : "starter";
-  const plan = PLANS[planKey];
+  const rawPlan = params.get("plan");
+  // Support both new (4 / 8) and legacy (starter / pro) values
+  let planKey: PlanKey;
+  if (rawPlan === "4" || rawPlan === "starter") planKey = "starter";
+  else if (rawPlan === "8" || rawPlan === "pro") planKey = "pro";
+  else planKey = "unknown";
+
+  const planMeta = planKey === "unknown" ? null : PLAN_DETAILS[planKey];
+  const rawPrice = params.get("price")?.replace(/[^\d]/g, "");
+  const priceDisplay = rawPrice
+    ? `₹${Number(rawPrice).toLocaleString("en-IN")}`
+    : planMeta
+      ? `₹${Number(planMeta.defaultPrice).toLocaleString("en-IN")}`
+      : "—";
+  const planName = planMeta?.name ?? "Your Dance Plan";
+  const planSessions = planMeta?.sessions ?? "Sessions per month";
   const studentName = params.get("name")?.trim() || "";
 
   const [showConfetti, setShowConfetti] = useState(true);
@@ -133,13 +147,13 @@ const ThankYou = () => {
             </span>
           </div>
           <h2 className="font-display font-black text-xl md:text-2xl text-foreground leading-tight">
-            {plan.name}
+            {planName}
           </h2>
-          <p className="text-sm text-foreground/70 mt-1">{plan.sessions}</p>
+          <p className="text-sm text-foreground/70 mt-1">{planSessions}</p>
           <div className="mt-4 pt-4 border-t border-primary/10 flex items-end justify-between">
             <span className="text-sm text-muted-foreground">Amount Paid</span>
             <span className="font-display font-black text-3xl md:text-4xl text-emerald-600">
-              {plan.price}
+              {priceDisplay}
             </span>
           </div>
         </section>

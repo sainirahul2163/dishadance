@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -61,6 +61,7 @@ const Checkout = () => {
   const planKey: PlanKey = params.get("plan") === "pro" ? "pro" : "starter";
   const plan = PLANS[planKey];
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const [form, setForm] = useState({ name: "", email: "", whatsapp: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -94,8 +95,15 @@ const Checkout = () => {
       description: "WhatsApp pe payment link bhej rahe hain...",
     });
 
+    const planParam = planKey === "pro" ? "8" : "4";
+    const priceParam = planKey === "pro" ? "1199" : "699";
+    const nameParam = encodeURIComponent(result.data.name);
+    const thankYouUrl = `/thank-you?plan=${planParam}&price=${priceParam}&name=${nameParam}`;
+
+    // Open WhatsApp in a new tab, then route the user to the Thank You page
     setTimeout(() => {
-      window.location.href = url;
+      window.open(url, "_blank", "noopener,noreferrer");
+      navigate(thankYouUrl);
       setSubmitting(false);
     }, 600);
   };
