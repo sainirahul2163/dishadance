@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/lib/supabaseClient";
 import {
   Calendar,
   Clock,
@@ -18,6 +19,23 @@ import {
 } from "lucide-react";
 
 type PlanKey = "starter" | "pro";
+
+declare global {
+  interface Window {
+    Razorpay: any;
+  }
+}
+
+const loadRazorpayScript = (): Promise<boolean> =>
+  new Promise((resolve) => {
+    if (typeof window === "undefined") return resolve(false);
+    if (window.Razorpay) return resolve(true);
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+    document.body.appendChild(script);
+  });
 
 const PLANS: Record<PlanKey, {
   name: string;
