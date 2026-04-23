@@ -105,7 +105,14 @@ const Checkout = () => {
   const [submitting, setSubmitting] = useState(false);
 
   const update = (key: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm((f) => ({ ...f, [key]: e.target.value }));
+    let value = e.target.value;
+    if (key === "whatsapp") {
+      // Allow digits, spaces, and a leading + only
+      value = value.replace(/[^\d+\s]/g, "");
+      const phoneErr = validatePhone(value);
+      setErrors((prev) => ({ ...prev, whatsapp: phoneErr ?? "" }));
+    }
+    setForm((f) => ({ ...f, [key]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
