@@ -181,6 +181,7 @@ const Dashboard = () => {
   const [search, setSearch] = useState("");
   const [paidOnly, setPaidOnly] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [fetchError, setFetchError] = useState<string | null>(null);
 
   const fetchOrders = useCallback(async (silent = false) => {
     if (!silent) setRefreshing(true);
@@ -189,10 +190,16 @@ const Dashboard = () => {
         .from("orders")
         .select("*")
         .order("created_at", { ascending: false });
-      if (error) throw error;
+      if (error) {
+        console.error("Supabase fetch error:", error);
+        throw error;
+      }
+      console.log("Fetched orders:", data);
       setOrders((data ?? []) as Order[]);
+      setFetchError(null);
     } catch (err) {
       console.error(err);
+      setFetchError((err as Error).message || "Unknown error");
       toast({
         title: "Failed to load orders",
         description: (err as Error).message,
