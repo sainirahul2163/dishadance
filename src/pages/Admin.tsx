@@ -33,7 +33,7 @@ import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/lib/supabaseClient";
 
-const ADMIN_PASSWORD = "Disha@2025";
+const ADMIN_PASSWORD = "Don";
 const SESSION_KEY = "dda_admin_authed";
 
 type Order = {
