@@ -341,7 +341,7 @@ const Index = () => {
 
               <div className="text-center mb-6 py-4 border-y border-primary/10">
                 <div className="font-display font-black text-5xl md:text-6xl text-magenta">
-                  ₹699
+                  ₹2
                 </div>
                 <p className="text-sm text-muted-foreground mt-1">/ month</p>
               </div>
@@ -388,7 +388,7 @@ const Index = () => {
 
               <div className="text-center mb-6 py-4 border-y border-white/20">
                 <div className="font-display font-black text-5xl md:text-6xl text-white">
-                  ₹1,199
+                  ₹4
                 </div>
                 <p className="text-sm text-white/80 mt-1">/ month</p>
               </div>
