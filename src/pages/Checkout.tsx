@@ -71,8 +71,27 @@ const checkoutSchema = z.object({
   whatsapp: z
     .string()
     .trim()
-    .regex(/^[0-9+\-\s]{10,15}$/, { message: "Sahi WhatsApp number daalo" }),
+    .superRefine((val, ctx) => {
+      const err = validatePhone(val);
+      if (err) {
+        ctx.addIssue({ code: z.ZodIssueCode.custom, message: err });
+      }
+    }),
 });
+
+const validatePhone = (phone: string): string | null => {
+  const cleaned = phone.replace(/\s+/g, "").replace(/^(\+91|91)/, "");
+
+  if (cleaned.length !== 10) {
+    return "Please enter a valid 10 digit mobile number";
+  }
+
+  if (!/^[6-9]/.test(cleaned)) {
+    return "Invalid number. Indian mobile numbers start with 6, 7, 8 or 9";
+  }
+
+  return null;
+};
 
 const Checkout = () => {
   const [params] = useSearchParams();
