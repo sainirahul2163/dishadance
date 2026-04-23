@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/lib/supabaseClient";
 import {
   Calendar,
   Clock,
@@ -18,6 +19,23 @@ import {
 } from "lucide-react";
 
 type PlanKey = "starter" | "pro";
+
+declare global {
+  interface Window {
+    Razorpay: any;
+  }
+}
+
+const loadRazorpayScript = (): Promise<boolean> =>
+  new Promise((resolve) => {
+    if (typeof window === "undefined") return resolve(false);
+    if (window.Razorpay) return resolve(true);
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+    document.body.appendChild(script);
+  });
 
 const PLANS: Record<PlanKey, {
   name: string;
@@ -71,7 +89,7 @@ const Checkout = () => {
     setForm((f) => ({ ...f, [key]: e.target.value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const result = checkoutSchema.safeParse(form);
     if (!result.success) {
@@ -85,27 +103,113 @@ const Checkout = () => {
     setErrors({});
     setSubmitting(true);
 
-    const message = encodeURIComponent(
-      `Hi Disha Ma'am! 💃\n\nMujhe seat book karni hai:\n\n📦 Plan: ${plan.name}\n💰 Price: ${plan.price}\n\n👤 Name: ${result.data.name}\n📧 Email: ${result.data.email}\n📱 WhatsApp: ${result.data.whatsapp}\n\nPayment link bhejo please!`,
-    );
-    const url = `https://wa.me/917719917935?text=${message}`;
-
-    toast({
-      title: "Seat hold ho gayi! 🎉",
-      description: "WhatsApp pe payment link bhej rahe hain...",
-    });
-
     const planParam = planKey === "pro" ? "8" : "4";
-    const priceParam = planKey === "pro" ? "1199" : "699";
+    const priceNum = planKey === "pro" ? 1199 : 699;
     const nameParam = encodeURIComponent(result.data.name);
-    const thankYouUrl = `/thank-you?plan=${planParam}&price=${priceParam}&name=${nameParam}`;
 
-    // Open WhatsApp in a new tab, then route the user to the Thank You page
-    setTimeout(() => {
-      window.open(url, "_blank", "noopener,noreferrer");
-      navigate(thankYouUrl);
+    try {
+      // 1) Pre-save pending order in Supabase
+      let orderRowId: string | null = null;
+      try {
+        const { data: inserted, error: insertErr } = await supabase
+          .from("orders")
+          .insert({
+            name: result.data.name,
+            email: result.data.email,
+            phone: result.data.whatsapp,
+            plan: planParam,
+            price: priceNum,
+            payment_status: "pending",
+          })
+          .select("id")
+          .single();
+        if (insertErr) throw insertErr;
+        orderRowId = inserted?.id ?? null;
+      } catch (err) {
+        console.error("Supabase pre-insert failed:", err);
+      }
+
+      // 2) Load Razorpay script
+      const ok = await loadRazorpayScript();
+      if (!ok || !window.Razorpay) {
+        throw new Error("Razorpay SDK load failed");
+      }
+
+      // 3) Open Razorpay checkout
+      const options = {
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID as string,
+        amount: priceNum * 100,
+        currency: "INR",
+        name: "Disha's Dance Academy",
+        description:
+          planKey === "pro" ? "Pro Plan - 8 Sessions" : "Starter Plan - 4 Sessions",
+        image: "/logo.png",
+        prefill: {
+          name: result.data.name,
+          email: result.data.email,
+          contact: result.data.whatsapp,
+        },
+        theme: { color: "#E91E8C" },
+        handler: async (response: { razorpay_payment_id: string; razorpay_order_id?: string }) => {
+          try {
+            if (orderRowId) {
+              await supabase
+                .from("orders")
+                .update({
+                  payment_status: "paid",
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  razorpay_order_id: response.razorpay_order_id ?? null,
+                })
+                .eq("id", orderRowId);
+            } else {
+              await supabase.from("orders").insert({
+                name: result.data.name,
+                email: result.data.email,
+                phone: result.data.whatsapp,
+                plan: planParam,
+                price: priceNum,
+                payment_status: "paid",
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_order_id: response.razorpay_order_id ?? null,
+              });
+            }
+          } catch (err) {
+            console.error("Supabase update failed:", err);
+          }
+
+          toast({
+            title: "Payment Successful! 🎉",
+            description: "Aapki seat pakki ho gayi hai!",
+          });
+
+          navigate(`/thank-you?plan=${planParam}&price=${priceNum}&name=${nameParam}`);
+        },
+        modal: {
+          ondismiss: () => {
+            setSubmitting(false);
+          },
+        },
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.on("payment.failed", () => {
+        toast({
+          title: "Payment failed",
+          description: "Payment failed. Dobara try karo!",
+          variant: "destructive",
+        });
+        setSubmitting(false);
+      });
+      rzp.open();
+    } catch (err) {
+      console.error(err);
+      toast({
+        title: "Something went wrong",
+        description: "Payment failed. Dobara try karo!",
+        variant: "destructive",
+      });
       setSubmitting(false);
-    }, 600);
+    }
   };
 
   const trustBadges = useMemo(
