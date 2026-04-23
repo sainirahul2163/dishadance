@@ -314,6 +314,14 @@ const Dashboard = () => {
       </header>
 
       <div className="container max-w-7xl mx-auto px-4 py-6 space-y-6">
+        {fetchError && (
+          <div className="rounded-lg border border-red-500/40 bg-red-500/10 text-red-300 px-4 py-3 text-sm">
+            <strong className="font-bold">Dashboard data load failed.</strong>{" "}
+            Check Supabase connection.
+            <div className="text-xs text-red-400/80 mt-1 font-mono">{fetchError}</div>
+          </div>
+        )}
+
         {/* Stats */}
         {loading ? (
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
