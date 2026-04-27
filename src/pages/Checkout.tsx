@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
@@ -23,6 +23,7 @@ type PlanKey = "starter" | "pro";
 declare global {
   interface Window {
     Razorpay: any;
+    fbq?: (...args: any[]) => void;
   }
 }
 
