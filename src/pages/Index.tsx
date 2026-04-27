@@ -20,9 +20,30 @@ import {
 } from "lucide-react";
 
 const credibilityStats = [
-  { number: "500+", label: "Happy Students", sub: "And growing every week" },
-  { number: "4.9★", label: "Student Rating", sub: "Based on real feedback" },
-  { number: "3+ Years", label: "Teaching Experience", sub: "Trusted by parents" },
+  {
+    icon: "👩‍🎓",
+    number: "500+",
+    label: "Happy Students",
+    sub: "Ladies aur bachche already seekh rahe hain",
+  },
+  {
+    icon: "⭐",
+    number: "4.9/5",
+    label: "Student Rating",
+    sub: "Real students ke real reviews",
+  },
+  {
+    icon: "💃",
+    number: "5+ Years",
+    label: "Teaching Experience",
+    sub: "Disha ma'am ka dance teaching journey",
+  },
+  {
+    icon: "🎵",
+    number: "10+",
+    label: "Dance Styles",
+    sub: "Bollywood, Hip-Hop, Semi-Classical & more",
+  },
 ];
 
 const features = [
@@ -202,24 +223,41 @@ const Index = () => {
         </div>
       </section>
 
-      {/* ============== CREDIBILITY STATS (3 cards) ============== */}
-      <section className="py-12 md:py-16 bg-white border-y border-primary/10">
-        <div className="container max-w-5xl mx-auto px-4">
-          <div className="-mx-4 md:mx-0 overflow-x-auto md:overflow-visible no-scrollbar">
-            <div className="flex md:grid md:grid-cols-3 gap-4 md:gap-6 px-4 md:px-0 min-w-max md:min-w-0">
-              {credibilityStats.map((s, i) => (
-                <div
-                  key={i}
-                  className="flex-shrink-0 w-[260px] md:w-auto text-center p-6 md:p-8 rounded-2xl bg-white border border-primary/15 shadow-soft hover:border-primary/40 hover:-translate-y-1 transition-all"
-                >
-                  <div className="font-display font-black text-4xl md:text-5xl bg-gradient-primary bg-clip-text text-transparent leading-tight mb-2">
-                    {s.number}
-                  </div>
-                  <div className="font-semibold text-base md:text-lg text-foreground">{s.label}</div>
-                  <div className="text-xs md:text-sm text-muted-foreground mt-1">{s.sub}</div>
+      {/* ============== CREDIBILITY STATS (4 cards) ============== */}
+      <section className="py-8 md:py-12 bg-white border-y border-primary/10">
+        <div className="container max-w-6xl mx-auto px-4">
+          <div className="text-center mb-8 md:mb-10">
+            <p className="text-primary font-semibold mb-2 text-xs md:text-sm uppercase tracking-wider">
+              📊 Numbers That Matter
+            </p>
+            <h2 className="text-2xl md:text-4xl text-foreground mb-2">
+              Kyun Choose Karein Disha's Dance Academy?
+            </h2>
+            <p className="text-sm md:text-base text-muted-foreground italic">
+              (Why hundreds of women trust us)
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+            {credibilityStats.map((s, i) => (
+              <div
+                key={i}
+                className="text-center p-5 md:p-6 rounded-2xl bg-white border border-primary/15 shadow-soft transition-all duration-300 md:hover:scale-[1.03] md:hover:shadow-pink md:hover:border-primary/40"
+              >
+                <div className="mx-auto mb-3 md:mb-4 w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-primary shadow-pink flex items-center justify-center text-2xl md:text-3xl">
+                  <span aria-hidden="true">{s.icon}</span>
                 </div>
-              ))}
-            </div>
+                <div className="font-display font-black text-3xl md:text-[40px] leading-tight text-foreground mb-1">
+                  {s.number}
+                </div>
+                <div className="text-[11px] md:text-xs uppercase tracking-wider font-semibold text-primary/80 mb-2">
+                  {s.label}
+                </div>
+                <p className="text-[13px] md:text-sm text-muted-foreground leading-snug">
+                  {s.sub}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
