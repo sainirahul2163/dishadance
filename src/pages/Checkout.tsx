@@ -193,6 +193,20 @@ const Checkout = () => {
         },
         theme: { color: "#E91E8C" },
         handler: async (response: { razorpay_payment_id: string; razorpay_order_id?: string }) => {
+          // 1) Auto-capture payment via Vercel serverless function
+          try {
+            await fetch("/api/capture-payment", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                payment_id: response.razorpay_payment_id,
+                amount: priceNum,
+              }),
+            });
+          } catch (err) {
+            console.error("Capture API error:", err);
+          }
+
           try {
             if (orderRowId) {
               await supabase
