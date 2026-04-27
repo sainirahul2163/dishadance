@@ -12,6 +12,12 @@ import {
 
 type PlanKey = "starter" | "pro" | "unknown";
 
+declare global {
+  interface Window {
+    fbq?: (...args: any[]) => void;
+  }
+}
+
 const PLAN_DETAILS: Record<Exclude<PlanKey, "unknown">, { name: string; sessions: string; defaultPrice: string }> = {
   starter: { name: "Starter Plan — 4 Sessions", sessions: "4 sessions per month", defaultPrice: "699" },
   pro: { name: "Pro Plan — 8 Sessions", sessions: "8 sessions per month", defaultPrice: "1199" },
@@ -94,6 +100,20 @@ const ThankYou = () => {
     const t = setTimeout(() => setShowConfetti(false), 5000);
     return () => clearTimeout(t);
   }, []);
+
+  useEffect(() => {
+    if (planKey === "unknown") return;
+    const priceNum = rawPrice
+      ? Number(rawPrice)
+      : Number(PLAN_DETAILS[planKey].defaultPrice);
+    if (typeof window !== "undefined" && typeof window.fbq === "function") {
+      window.fbq("track", "Purchase", {
+        value: priceNum,
+        currency: "INR",
+        content_name: planKey === "pro" ? "Pro Plan" : "Starter Plan",
+      });
+    }
+  }, [planKey, rawPrice]);
 
   const waLink =
     "https://wa.me/917719917935?text=Hi%20Disha%20Ma'am!%20Maine%20payment%20kar%20di%20hai.%20Mujhe%20is%20slot%20mein%20add%20karo%3A%20";
