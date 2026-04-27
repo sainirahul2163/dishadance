@@ -171,17 +171,34 @@ const Checkout = () => {
         console.error("Supabase pre-insert failed:", err);
       }
 
-      // 2) Load Razorpay script
+      // 2) Create Razorpay order via backend (auto-capture enabled)
+      const orderRes = await fetch("/api/create-order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          amount: priceNum,
+          plan: planParam,
+        }),
+      });
+
+      const orderData = await orderRes.json();
+
+      if (!orderRes.ok || !orderData.orderId) {
+        throw new Error("Failed to create Razorpay order");
+      }
+
+      // 3) Load Razorpay script
       const ok = await loadRazorpayScript();
       if (!ok || !window.Razorpay) {
         throw new Error("Razorpay SDK load failed");
       }
 
-      // 3) Open Razorpay checkout
+      // 4) Open Razorpay checkout with order_id
       const options = {
         key: import.meta.env.VITE_RAZORPAY_KEY_ID as string,
         amount: priceNum * 100,
         currency: "INR",
+        order_id: orderData.orderId,
         name: "Disha's Dance Academy",
         description:
           planKey === "pro" ? "Pro Plan - 8 Sessions" : "Starter Plan - 4 Sessions",
@@ -192,21 +209,11 @@ const Checkout = () => {
           contact: result.data.whatsapp,
         },
         theme: { color: "#E91E8C" },
-        handler: async (response: { razorpay_payment_id: string; razorpay_order_id?: string }) => {
-          // 1) Auto-capture payment via Vercel serverless function
-          try {
-            await fetch("/api/capture-payment", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                payment_id: response.razorpay_payment_id,
-                amount: priceNum,
-              }),
-            });
-          } catch (err) {
-            console.error("Capture API error:", err);
-          }
-
+        handler: async (response: {
+          razorpay_payment_id: string;
+          razorpay_order_id?: string;
+          razorpay_signature?: string;
+        }) => {
           try {
             if (orderRowId) {
               await supabase
