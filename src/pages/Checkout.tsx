@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
@@ -23,6 +23,7 @@ type PlanKey = "starter" | "pro";
 declare global {
   interface Window {
     Razorpay: any;
+    fbq?: (...args: any[]) => void;
   }
 }
 
@@ -103,6 +104,17 @@ const Checkout = () => {
   const [form, setForm] = useState({ name: "", email: "", whatsapp: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    const priceNum = planKey === "pro" ? 4 : 2;
+    if (typeof window !== "undefined" && typeof window.fbq === "function") {
+      window.fbq("track", "InitiateCheckout", {
+        value: priceNum,
+        currency: "INR",
+        content_name: planKey === "pro" ? "Pro Plan" : "Starter Plan",
+      });
+    }
+  }, [planKey]);
 
   const update = (key: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value;
