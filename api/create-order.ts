@@ -5,10 +5,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(405).json({ error: 'Method not allowed' })
   }
 
-  const { payment_id, amount } = req.body ?? {}
+  const { amount, plan } = req.body ?? {}
 
-  if (!payment_id || !amount) {
-    return res.status(400).json({ error: 'Missing payment_id or amount' })
+  if (!amount || !plan) {
+    return res.status(400).json({ error: 'Missing amount or plan' })
   }
 
   const keyId = process.env.RAZORPAY_KEY_ID
@@ -22,28 +22,32 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const credentials = Buffer.from(`${keyId}:${keySecret}`).toString('base64')
 
   try {
-    const response = await fetch(
-      `https://api.razorpay.com/v1/payments/${payment_id}/capture`,
-      {
-        method: 'POST',
-        headers: {
-          Authorization: `Basic ${credentials}`,
-          'Content-Type': 'application/json',
+    const response = await fetch('https://api.razorpay.com/v1/orders', {
+      method: 'POST',
+      headers: {
+        Authorization: `Basic ${credentials}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        amount: amount * 100,
+        currency: 'INR',
+        payment_capture: 1,
+        notes: {
+          plan: plan === '4' ? 'Starter Plan - 4 Sessions' : 'Pro Plan - 8 Sessions',
         },
-        body: JSON.stringify({ amount: amount * 100, currency: 'INR' }),
-      }
-    )
+      }),
+    })
 
     const data = await response.json()
 
     if (!response.ok) {
-      console.error('Razorpay capture error:', data)
+      console.error('Razorpay order creation failed:', data)
       return res.status(400).json({ error: data })
     }
 
-    return res.status(200).json({ success: true, data })
+    return res.status(200).json({ orderId: data.id })
   } catch (err) {
-    console.error('Capture failed:', err)
+    console.error('Create order error:', err)
     return res.status(500).json({ error: 'Internal server error' })
   }
 }
