@@ -14,7 +14,7 @@ type PlanKey = "starter" | "pro" | "unknown";
 
 declare global {
   interface Window {
-    fbq?: (...args: any[]) => void;
+    fbq?: (...args: unknown[]) => void;
   }
 }
 
@@ -103,6 +103,10 @@ const ThankYou = () => {
 
   useEffect(() => {
     if (planKey === "unknown") return;
+    const paymentId = params.get("payment_id") || params.get("paymentId") || `${planKey}_${rawPrice ?? "x"}`;
+    const key = `purchase_fired_${paymentId}`;
+    if (sessionStorage.getItem(key)) return;
+
     const priceNum = rawPrice
       ? Number(rawPrice)
       : Number(PLAN_DETAILS[planKey].defaultPrice);
@@ -112,8 +116,10 @@ const ThankYou = () => {
         currency: "INR",
         content_name: planKey === "pro" ? "Pro Plan" : "Starter Plan",
       });
+      sessionStorage.setItem(key, "true");
     }
-  }, [planKey, rawPrice]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const waLink =
     "https://wa.me/917719917935?text=Hi%20Disha%20Ma'am!%20Maine%20payment%20kar%20di%20hai.%20Mujhe%20is%20slot%20mein%20add%20karo%3A%20";

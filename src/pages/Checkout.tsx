@@ -23,7 +23,7 @@ type PlanKey = "starter" | "pro";
 declare global {
   interface Window {
     Razorpay: any;
-    fbq?: (...args: any[]) => void;
+    fbq?: (...args: unknown[]) => void;
   }
 }
 
@@ -106,15 +106,19 @@ const Checkout = () => {
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    const priceNum = planKey === "pro" ? 4 : 2;
+    const key = `initiate_checkout_fired_${planKey}`;
+    if (sessionStorage.getItem(key)) return;
+
     if (typeof window !== "undefined" && typeof window.fbq === "function") {
       window.fbq("track", "InitiateCheckout", {
-        value: priceNum,
+        value: planKey === "pro" ? 1199 : 699,
         currency: "INR",
         content_name: planKey === "pro" ? "Pro Plan" : "Starter Plan",
       });
+      sessionStorage.setItem(key, "true");
     }
-  }, [planKey]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const update = (key: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value;
