@@ -5,7 +5,7 @@ interface HeroVideoProps {
 }
 
 const DEFAULT_SRC =
-  "https://res.cloudinary.com/dj9ps03eq/video/upload/v1777886579/Dishadance.com_1st_review_y3gddm.mp4";
+  "https://res.cloudinary.com/dj9ps03eq/video/upload/fl_attachment:false,vc_auto/v1777886579/Dishadance.com_1st_review_y3gddm.mp4";
 
 export const HeroVideo = ({ src = DEFAULT_SRC }: HeroVideoProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -46,8 +46,9 @@ export const HeroVideo = ({ src = DEFAULT_SRC }: HeroVideoProps) => {
           borderRadius: "16px",
         }}
         playsInline
-        preload="metadata"
+        preload="auto"
         controls={false}
+        crossOrigin="anonymous"
         onEnded={() => setPlaying(false)}
       />
 
