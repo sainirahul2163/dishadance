@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/accordion";
 import heroDancer from "@/assets/hero-dancer.jpg";
 import dishaInstructor from "@/assets/disha-instructor.jpg";
+import { HeroVideo } from "@/components/HeroVideo";
 import {
   Calendar,
   Check,
@@ -181,14 +182,7 @@ const Index = () => {
 
           {/* VSL VIDEO — 1:1 square, centered, max 560px */}
           <div className="mb-5 px-4 md:px-0">
-            <iframe
-              src="https://drive.google.com/file/d/1Rjv2mT66LYDAyDBohTnsF6ykCqpkQaVm/preview"
-              title="Disha Ma'am Ka Message"
-              allow="encrypted-media"
-              allowFullScreen
-              className="block mx-auto w-full border-0 shadow-pink ring-1 ring-primary/20"
-              style={{ aspectRatio: "1 / 1", maxWidth: 560, borderRadius: 16 }}
-            />
+            <HeroVideo src="https://drive.google.com/uc?export=download&id=1Rjv2mT66LYDAyDBohTnsF6ykCqpkQaVm" />
           </div>
 
           {/* Trust badges row */}
