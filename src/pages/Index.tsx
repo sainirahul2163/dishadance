@@ -179,17 +179,16 @@ const Index = () => {
             (Learn Dance from Home — Bollywood, Hip-Hop & More)
           </p>
 
-          {/* VSL VIDEO — clean rounded container, 9:16 mobile, capped on desktop */}
-          <div className="mx-auto mb-5 px-2 md:px-0" style={{ maxWidth: 480 }}>
-            <div className="relative rounded-3xl overflow-hidden shadow-pink ring-1 ring-primary/20 bg-gradient-to-br from-[hsl(335_80%_85%)] to-[hsl(320_70%_75%)] aspect-[9/16]">
-              <iframe
-                className="absolute inset-0 w-full h-full border-0"
-                src="https://drive.google.com/file/d/1Tml0QCgjVSr5DCufq0NfLjqKAZG08Ugj/preview"
-                title="Disha Ma'am Ka Message"
-                allow="autoplay; encrypted-media"
-                allowFullScreen
-              />
-            </div>
+          {/* VSL VIDEO — 1:1 square, centered, max 560px */}
+          <div className="mb-5 px-4 md:px-0">
+            <iframe
+              src="https://drive.google.com/file/d/1Rjv2mT66LYDAyDBohTnsF6ykCqpkQaVm/preview"
+              title="Disha Ma'am Ka Message"
+              allow="encrypted-media"
+              allowFullScreen
+              className="block mx-auto w-full border-0 shadow-pink ring-1 ring-primary/20"
+              style={{ aspectRatio: "1 / 1", maxWidth: 560, borderRadius: 16 }}
+            />
           </div>
 
           {/* Trust badges row */}
