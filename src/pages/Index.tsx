@@ -182,7 +182,7 @@ const Index = () => {
 
           {/* VSL VIDEO — 1:1 square, centered, max 560px */}
           <div className="mb-5 px-4 md:px-0">
-            <HeroVideo src="https://drive.google.com/uc?export=download&id=1Rjv2mT66LYDAyDBohTnsF6ykCqpkQaVm" />
+            <HeroVideo src="https://res.cloudinary.com/dj9ps03eq/video/upload/v1777886579/Dishadance.com_1st_review_y3gddm.mp4" />
           </div>
 
           {/* Trust badges row */}
