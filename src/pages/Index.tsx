@@ -381,7 +381,7 @@ const Index = () => {
           <div className="grid md:grid-cols-3 gap-6 md:gap-8 mb-10">
             {testimonials.map((t, i) => (
               <div key={i} className="group">
-            <TestimonialVideo src={t.videoSrc} poster={t.poster} title={`${t.name} testimonial`} />
+                <TestimonialVideo src={t.videoSrc} poster={t.poster} title={`${t.name} testimonial`} />
                 <div className="mt-4 text-center">
                   <div className="font-display font-bold text-lg text-foreground">{t.name}</div>
                   <p className="text-sm md:text-base text-muted-foreground mt-1 italic">"{t.quote}"</p>
