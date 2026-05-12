@@ -2,10 +2,11 @@ import { useRef, useState } from "react";
 
 interface TestimonialVideoProps {
   src: string;
+  poster?: string;
   title?: string;
 }
 
-export const TestimonialVideo = ({ src, title }: TestimonialVideoProps) => {
+export const TestimonialVideo = ({ src, poster, title }: TestimonialVideoProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
 
@@ -35,6 +36,7 @@ export const TestimonialVideo = ({ src, title }: TestimonialVideoProps) => {
       <video
         ref={videoRef}
         src={src}
+        poster={poster}
         title={title}
         style={{
           width: "100%",
@@ -43,7 +45,7 @@ export const TestimonialVideo = ({ src, title }: TestimonialVideoProps) => {
           borderRadius: "16px",
         }}
         playsInline
-        preload="metadata"
+        preload="auto"
         controls={false}
         onPlay={() => setPlaying(true)}
         onPause={() => setPlaying(false)}
