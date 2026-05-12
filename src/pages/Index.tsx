@@ -158,6 +158,8 @@ const Index = () => {
     };
   }, []);
 
+  const currentMonth = new Date().toLocaleString("en-US", { month: "long" });
+
   return (
     <div className="min-h-screen bg-background overflow-x-hidden pb-[88px] md:pb-0">
       {/* ============== STICKY URGENCY BAR ============== */}
