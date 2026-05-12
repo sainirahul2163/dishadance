@@ -59,22 +59,28 @@ const features = [
 
 const testimonials = [
   {
-    name: "Seema",
+    name: "Narayani",
     quote: "Disha ma'am ke saath dance karna bahut maza aata hai! 💃",
     videoSrc:
       "https://res.cloudinary.com/dj9ps03eq/video/upload/v1778576754/testimonials_2_ncouts.mp4",
+    poster:
+      "https://res.cloudinary.com/dj9ps03eq/video/upload/so_0/v1778576754/testimonials_2_ncouts.jpg",
   },
   {
-    name: "Mansi",
+    name: "Sakshi",
     quote: "Mere bachche ko Bollywood dance bahut pasand aaya 🌟",
     videoSrc:
       "https://res.cloudinary.com/dj9ps03eq/video/upload/v1778576755/testimonials_fn67xb.mp4",
+    poster:
+      "https://res.cloudinary.com/dj9ps03eq/video/upload/so_0/v1778576755/testimonials_fn67xb.jpg",
   },
   {
-    name: "Diya",
+    name: "Malika",
     quote: "Ghar baithe seekhna itna easy hoga, socha nahi tha! ❤️",
     videoSrc:
       "https://res.cloudinary.com/dj9ps03eq/video/upload/v1778576756/testimonials_3_hjwdfv.mp4",
+    poster:
+      "https://res.cloudinary.com/dj9ps03eq/video/upload/so_0/v1778576756/testimonials_3_hjwdfv.jpg",
   },
 ];
 
