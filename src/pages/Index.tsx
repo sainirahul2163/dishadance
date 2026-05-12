@@ -10,6 +10,7 @@ import {
 import heroDancer from "@/assets/hero-dancer.jpg";
 import dishaInstructor from "@/assets/disha-instructor.jpg";
 import { HeroVideo } from "@/components/HeroVideo";
+import { TestimonialVideo } from "@/components/TestimonialVideo";
 import {
   Calendar,
   Check,
@@ -60,17 +61,20 @@ const testimonials = [
   {
     name: "Seema",
     quote: "Disha ma'am ke saath dance karna bahut maza aata hai! 💃",
-    videoSrc: "https://drive.google.com/file/d/1ivp_B8RVQX6hC7om6mkAlm8UjZ3yGUi_/preview",
+    videoSrc:
+      "https://res.cloudinary.com/dj9ps03eq/video/upload/v1778576754/testimonials_2_ncouts.mp4",
   },
   {
     name: "Mansi",
     quote: "Mere bachche ko Bollywood dance bahut pasand aaya 🌟",
-    videoSrc: "https://drive.google.com/file/d/1ivp_B8RVQX6hC7om6mkAlm8UjZ3yGUi_/preview",
+    videoSrc:
+      "https://res.cloudinary.com/dj9ps03eq/video/upload/v1778576755/testimonials_fn67xb.mp4",
   },
   {
     name: "Diya",
     quote: "Ghar baithe seekhna itna easy hoga, socha nahi tha! ❤️",
-    videoSrc: "https://drive.google.com/file/d/1ivp_B8RVQX6hC7om6mkAlm8UjZ3yGUi_/preview",
+    videoSrc:
+      "https://res.cloudinary.com/dj9ps03eq/video/upload/v1778576756/testimonials_3_hjwdfv.mp4",
   },
 ];
 
@@ -371,15 +375,7 @@ const Index = () => {
           <div className="grid md:grid-cols-3 gap-6 md:gap-8 mb-10">
             {testimonials.map((t, i) => (
               <div key={i} className="group">
-                <div className="w-full overflow-hidden rounded-2xl shadow-pink bg-black aspect-[9/16]">
-                  <iframe
-                    src={t.videoSrc}
-                    title={`${t.name} testimonial`}
-                    className="w-full h-full border-0"
-                    allow="autoplay; encrypted-media"
-                    allowFullScreen
-                  />
-                </div>
+                <TestimonialVideo src={t.videoSrc} title={`${t.name} testimonial`} />
                 <div className="mt-4 text-center">
                   <div className="font-display font-bold text-lg text-foreground">{t.name}</div>
                   <p className="text-sm md:text-base text-muted-foreground mt-1 italic">"{t.quote}"</p>
