@@ -44,6 +44,7 @@ export const HeroVideo = ({ src = DEFAULT_SRC }: HeroVideoProps) => {
       <video
         ref={videoRef}
         src={src}
+        poster={getPoster(src)}
         style={{
           width: "100%",
           height: "100%",
@@ -51,7 +52,7 @@ export const HeroVideo = ({ src = DEFAULT_SRC }: HeroVideoProps) => {
           borderRadius: "16px",
         }}
         playsInline
-        preload="metadata"
+        preload="auto"
         controls={false}
         onEnded={() => setPlaying(false)}
       />
