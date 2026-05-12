@@ -520,10 +520,10 @@ const Index = () => {
               <div className="text-center mb-6 py-4 border-y border-primary/10">
                 <div className="flex items-baseline justify-center gap-2">
                   <span className="text-2xl md:text-3xl text-muted-foreground line-through font-semibold">₹999</span>
-                  <span className="font-display font-black text-5xl md:text-6xl text-magenta">₹699</span>
+                  <span className="font-display font-black text-5xl md:text-6xl text-magenta">₹2</span>
                 </div>
                 <p className="text-sm text-muted-foreground mt-1">/ month</p>
-                <p className="text-sm font-semibold text-foreground/80 mt-2">Bas ₹174 per class</p>
+                <p className="text-sm font-semibold text-foreground/80 mt-2">Bas ₹0.50 per class</p>
               </div>
 
               <ul className="space-y-3 mb-8">
