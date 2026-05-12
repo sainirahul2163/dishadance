@@ -164,7 +164,7 @@ const Index = () => {
     <div className="min-h-screen bg-background overflow-x-hidden pb-[88px] md:pb-0">
       {/* ============== STICKY URGENCY BAR ============== */}
       <div className="sticky top-0 z-50 bg-[hsl(330_60%_20%)] text-white text-center text-xs md:text-sm font-medium flex items-center justify-center h-9 md:h-10 px-4 animate-marquee-pulse shadow-md">
-        🔥 April Batch Filling Fast — Only 12 Seats Left!
+        {`🔥 ${currentMonth} Batch Filling Fast — Only 12 Seats Left!`}
       </div>
 
       {/* ============== HERO ============== */}
