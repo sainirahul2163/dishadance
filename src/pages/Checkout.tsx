@@ -315,15 +315,48 @@ const Checkout = () => {
               ✅ Spot Confirmed on Payment
             </span>
           </div>
+
+          {/* Plan selector */}
+          <div className="grid grid-cols-2 gap-3 mb-4">
+            {(Object.keys(PLANS) as PlanKey[]).map((key) => {
+              const p = PLANS[key];
+              const selected = planKey === key;
+              return (
+                <button
+                  type="button"
+                  key={key}
+                  onClick={() => setPlanKey(key)}
+                  className={`text-left rounded-xl p-3 transition-all border-2 ${
+                    selected
+                      ? "border-magenta bg-blush"
+                      : "border-border bg-white hover:border-primary/30"
+                  }`}
+                >
+                  {selected && (
+                    <div className="inline-block bg-magenta text-white text-[10px] font-bold px-2 py-0.5 rounded-full mb-1.5">
+                      ✓ Selected
+                    </div>
+                  )}
+                  <div className="font-bold text-sm text-foreground">
+                    {key === "pro" ? "👑 Pro Plan" : "⭐ Starter Plan"}
+                  </div>
+                  <div className="text-xs text-muted-foreground my-1">
+                    {p.sessions}
+                  </div>
+                  <div className="text-xl font-bold text-magenta">
+                    ₹{p.price.toLocaleString("en-IN")}
+                  </div>
+                  <div className="text-[11px] text-muted-foreground mt-0.5">
+                    {p.timings}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+
           <h2 className="font-display font-black text-xl md:text-2xl text-foreground leading-tight">
             {plan.name}
           </h2>
-          <Link
-            to="/#pricing"
-            className="inline-block mt-1 text-xs text-muted-foreground underline hover:text-magenta transition-colors"
-          >
-            🔄 Change Plan
-          </Link>
           <div className="mt-3 space-y-1.5 text-sm text-foreground/80">
             <div className="flex items-center gap-2">
               <Calendar className="w-4 h-4 text-magenta" />
@@ -337,7 +370,7 @@ const Checkout = () => {
           <div className="mt-4 pt-4 border-t border-primary/10 flex items-end justify-between">
             <span className="text-sm text-muted-foreground">Total</span>
             <span className="font-display font-black text-4xl md:text-5xl text-magenta">
-              {plan.price}
+              ₹{plan.price.toLocaleString("en-IN")}
             </span>
           </div>
         </section>
