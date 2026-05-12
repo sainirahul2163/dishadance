@@ -219,7 +219,7 @@ const Index = () => {
               size="lg"
               className="w-full bg-gradient-primary hover:opacity-95 text-primary-foreground text-base md:text-lg font-bold px-6 py-7 md:py-8 rounded-full shadow-pink hover:scale-[1.02] transition-all animate-pulse-glow h-auto min-h-[56px]"
             >
-              <Link to="/checkout?plan=starter">Abhi Join Karo — ₹699 se shuru 💖</Link>
+              <Link to="/checkout?plan=starter">Abhi Join Karo — ₹2 se shuru 💖</Link>
             </Button>
             <p className="text-xs md:text-sm text-muted-foreground text-center">
               ⚡ Instant access after payment • 🔒 Razorpay secure
