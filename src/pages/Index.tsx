@@ -285,12 +285,13 @@ const Index = () => {
                 <div className="absolute -inset-2 rounded-full bg-gradient-primary blur-xl opacity-50" />
                 <div className="relative rounded-full p-1.5 bg-gradient-primary shadow-pink">
                   <img
-                    src={dishaInstructor}
-                    alt="Disha Sharma — Dance Instructor"
+                    src="/disha-instructor.png"
+                    alt="Disha Sharma - Professional Dance Instructor"
                     width={320}
                     height={320}
                     loading="lazy"
-                    className="w-[280px] h-[280px] md:w-[320px] md:h-[320px] rounded-full object-cover border-4 border-white"
+                    className="w-[280px] h-[280px] md:w-[320px] md:h-[320px] rounded-full border-4 border-white"
+                    style={{ objectFit: "cover", objectPosition: "center top" }}
                   />
                 </div>
               </div>
