@@ -52,6 +52,15 @@ type Order = {
 const PINK = "#FF4FA3";
 const MAGENTA = "#E91E8C";
 
+const RANGES = [
+  { label: "Today", value: "today" },
+  { label: "Yesterday", value: "yesterday" },
+  { label: "7 Days", value: "7days" },
+  { label: "30 Days", value: "30days" },
+  { label: "All Time", value: "all" },
+] as const;
+type RangeValue = typeof RANGES[number]["value"] | "custom";
+
 /* ---------- Login Gate ---------- */
 const LoginGate = ({ onSuccess }: { onSuccess: () => void }) => {
   const [password, setPassword] = useState("");
@@ -182,6 +191,9 @@ const Dashboard = () => {
   const [paidOnly, setPaidOnly] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [fetchError, setFetchError] = useState<string | null>(null);
+  const [dateRange, setDateRange] = useState<RangeValue>("today");
+  const [customStart, setCustomStart] = useState("");
+  const [customEnd, setCustomEnd] = useState("");
 
   const fetchOrders = useCallback(async (silent = false) => {
     if (!silent) setRefreshing(true);
@@ -222,19 +234,71 @@ const Dashboard = () => {
     [orders],
   );
 
-  const stats = useMemo(() => {
-    const totalRevenue = paid.reduce((sum, o) => sum + (o.price ?? 0), 0);
-    const starter = paid.filter((o) => o.plan === "4").length;
-    const pro = paid.filter((o) => o.plan === "8").length;
-    return { totalRevenue, totalOrders: paid.length, starter, pro };
-  }, [paid]);
+  const { start: rangeStart, end: rangeEnd } = useMemo(() => {
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    switch (dateRange) {
+      case "today":
+        return { start: today, end: now };
+      case "yesterday": {
+        const y = new Date(today);
+        y.setDate(y.getDate() - 1);
+        return { start: y, end: today };
+      }
+      case "7days": {
+        const w = new Date(today);
+        w.setDate(w.getDate() - 7);
+        return { start: w, end: now };
+      }
+      case "30days": {
+        const m = new Date(today);
+        m.setDate(m.getDate() - 30);
+        return { start: m, end: now };
+      }
+      case "custom":
+        return {
+          start: customStart ? new Date(customStart) : new Date(0),
+          end: customEnd ? new Date(customEnd + "T23:59:59") : now,
+        };
+      case "all":
+      default:
+        return { start: new Date(0), end: now };
+    }
+  }, [dateRange, customStart, customEnd]);
 
-  // 30-day revenue series
+  const filteredPaid = useMemo(
+    () =>
+      paid.filter((o) => {
+        const d = new Date(o.created_at);
+        return d >= rangeStart && d <= rangeEnd;
+      }),
+    [paid, rangeStart, rangeEnd],
+  );
+
+  const stats = useMemo(() => {
+    const totalRevenue = filteredPaid.reduce((sum, o) => sum + (o.price ?? 0), 0);
+    const starter = filteredPaid.filter((o) => o.plan === "4").length;
+    const pro = filteredPaid.filter((o) => o.plan === "8").length;
+    return { totalRevenue, totalOrders: filteredPaid.length, starter, pro };
+  }, [filteredPaid]);
+
+  // Revenue series within selected range (capped at 60 days for chart readability)
   const revenueSeries = useMemo(() => {
     const days: { date: string; label: string; revenue: number }[] = [];
-    const today = startOfDay(new Date());
-    for (let i = 29; i >= 0; i--) {
-      const d = subDays(today, i);
+    const endDay = startOfDay(rangeEnd);
+    const startDay =
+      dateRange === "all" && filteredPaid.length === 0
+        ? subDays(endDay, 29)
+        : startOfDay(rangeStart.getTime() === 0 ? subDays(endDay, 29) : rangeStart);
+    const diffDays = Math.min(
+      60,
+      Math.max(
+        0,
+        Math.round((endDay.getTime() - startDay.getTime()) / 86400000),
+      ),
+    );
+    for (let i = diffDays; i >= 0; i--) {
+      const d = subDays(endDay, i);
       days.push({
         date: format(d, "yyyy-MM-dd"),
         label: format(d, "dd MMM"),
@@ -242,13 +306,13 @@ const Dashboard = () => {
       });
     }
     const map = new Map(days.map((d) => [d.date, d]));
-    paid.forEach((o) => {
+    filteredPaid.forEach((o) => {
       const key = format(new Date(o.created_at), "yyyy-MM-dd");
       const bucket = map.get(key);
       if (bucket) bucket.revenue += o.price ?? 0;
     });
     return days;
-  }, [paid]);
+  }, [filteredPaid, rangeStart, rangeEnd, dateRange]);
 
   const planSplit = useMemo(
     () => [
@@ -259,7 +323,12 @@ const Dashboard = () => {
   );
 
   const filtered = useMemo(() => {
-    const base = paidOnly ? paid : orders ?? [];
+    const base = paidOnly
+      ? filteredPaid
+      : (orders ?? []).filter((o) => {
+          const d = new Date(o.created_at);
+          return d >= rangeStart && d <= rangeEnd;
+        });
     const q = search.trim().toLowerCase();
     if (!q) return base;
     return base.filter(
@@ -268,7 +337,7 @@ const Dashboard = () => {
         o.email?.toLowerCase().includes(q) ||
         o.phone?.toLowerCase().includes(q),
     );
-  }, [orders, paid, paidOnly, search]);
+  }, [orders, filteredPaid, paidOnly, search, rangeStart, rangeEnd]);
 
   const handleLogout = () => {
     sessionStorage.removeItem(SESSION_KEY);
@@ -321,6 +390,60 @@ const Dashboard = () => {
             <div className="text-xs text-red-400/80 mt-1 font-mono">{fetchError}</div>
           </div>
         )}
+
+        {/* Date range filter */}
+        <div className="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-4 md:p-5 space-y-3">
+          <div className="flex flex-wrap gap-3 items-center">
+            <div className="flex gap-2 overflow-x-auto pb-1 flex-1 min-w-0">
+              {RANGES.map((r) => {
+                const active = dateRange === r.value;
+                return (
+                  <button
+                    key={r.value}
+                    type="button"
+                    onClick={() => setDateRange(r.value)}
+                    className="px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-colors"
+                    style={{
+                      background: active ? MAGENTA : "#27272a",
+                      color: active ? "white" : "#a1a1aa",
+                    }}
+                  >
+                    {r.label}
+                  </button>
+                );
+              })}
+            </div>
+            <div className="flex gap-2 items-center">
+              <input
+                type="date"
+                value={customStart}
+                onChange={(e) => {
+                  setCustomStart(e.target.value);
+                  setDateRange("custom");
+                }}
+                className="px-3 py-2 rounded-lg border border-zinc-700 bg-zinc-950 text-zinc-100 text-xs"
+              />
+              <span className="text-zinc-500 text-xs">to</span>
+              <input
+                type="date"
+                value={customEnd}
+                onChange={(e) => {
+                  setCustomEnd(e.target.value);
+                  setDateRange("custom");
+                }}
+                className="px-3 py-2 rounded-lg border border-zinc-700 bg-zinc-950 text-zinc-100 text-xs"
+              />
+            </div>
+          </div>
+          <p className="text-zinc-400 text-xs">
+            Showing:{" "}
+            <span className="text-zinc-200 font-semibold">
+              {RANGES.find((r) => r.value === dateRange)?.label ?? "Custom Range"}
+            </span>
+            {" · "}
+            {filteredPaid.length} paid orders
+          </p>
+        </div>
 
         {/* Stats */}
         {loading ? (
