@@ -675,7 +675,7 @@ const Index = () => {
             size="lg"
             className="bg-gradient-primary hover:opacity-95 text-primary-foreground text-base md:text-lg font-bold px-10 py-7 md:py-8 rounded-full shadow-pink hover:scale-[1.02] transition-all animate-pulse-glow min-h-[56px] h-auto"
           >
-            <Link to="/checkout?plan=starter">Abhi Join Karo — ₹699 se shuru</Link>
+            <Link to="/checkout?plan=starter">Abhi Join Karo — ₹2 se shuru</Link>
           </Button>
 
           <p className="text-sm md:text-base text-muted-foreground mt-4">
