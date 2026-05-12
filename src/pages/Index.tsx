@@ -761,7 +761,7 @@ const Index = () => {
             asChild
             className="flex-1 bg-gradient-primary text-primary-foreground font-bold rounded-full text-sm shadow-pink animate-pulse-glow h-[52px] min-h-[52px]"
           >
-            <Link to="/checkout?plan=starter">Abhi Join Karo 💖 — ₹699+</Link>
+            <Link to="/checkout?plan=starter">Abhi Join Karo 💖 — ₹2+</Link>
           </Button>
           <a
             href="https://wa.me/917719917935"
