@@ -59,22 +59,28 @@ const features = [
 
 const testimonials = [
   {
-    name: "Seema",
+    name: "Narayani",
     quote: "Disha ma'am ke saath dance karna bahut maza aata hai! 💃",
     videoSrc:
       "https://res.cloudinary.com/dj9ps03eq/video/upload/v1778576754/testimonials_2_ncouts.mp4",
+    poster:
+      "https://res.cloudinary.com/dj9ps03eq/video/upload/so_0/v1778576754/testimonials_2_ncouts.jpg",
   },
   {
-    name: "Mansi",
+    name: "Sakshi",
     quote: "Mere bachche ko Bollywood dance bahut pasand aaya 🌟",
     videoSrc:
       "https://res.cloudinary.com/dj9ps03eq/video/upload/v1778576755/testimonials_fn67xb.mp4",
+    poster:
+      "https://res.cloudinary.com/dj9ps03eq/video/upload/so_0/v1778576755/testimonials_fn67xb.jpg",
   },
   {
-    name: "Diya",
+    name: "Malika",
     quote: "Ghar baithe seekhna itna easy hoga, socha nahi tha! ❤️",
     videoSrc:
       "https://res.cloudinary.com/dj9ps03eq/video/upload/v1778576756/testimonials_3_hjwdfv.mp4",
+    poster:
+      "https://res.cloudinary.com/dj9ps03eq/video/upload/so_0/v1778576756/testimonials_3_hjwdfv.jpg",
   },
 ];
 
@@ -375,7 +381,7 @@ const Index = () => {
           <div className="grid md:grid-cols-3 gap-6 md:gap-8 mb-10">
             {testimonials.map((t, i) => (
               <div key={i} className="group">
-                <TestimonialVideo src={t.videoSrc} title={`${t.name} testimonial`} />
+                <TestimonialVideo src={t.videoSrc} poster={t.poster} title={`${t.name} testimonial`} />
                 <div className="mt-4 text-center">
                   <div className="font-display font-bold text-lg text-foreground">{t.name}</div>
                   <p className="text-sm md:text-base text-muted-foreground mt-1 italic">"{t.quote}"</p>
