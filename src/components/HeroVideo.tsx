@@ -7,6 +7,11 @@ interface HeroVideoProps {
 const DEFAULT_SRC =
   "https://res.cloudinary.com/dj9ps03eq/video/upload/v1777886579/Dishadance.com_1st_review_y3gddm.mp4";
 
+const getPoster = (videoSrc: string): string =>
+  videoSrc
+    .replace("/video/upload/", "/video/upload/so_0/")
+    .replace(".mp4", ".jpg");
+
 export const HeroVideo = ({ src = DEFAULT_SRC }: HeroVideoProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
