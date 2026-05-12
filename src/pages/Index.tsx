@@ -567,14 +567,14 @@ const Index = () => {
               <div className="text-center mb-6 py-4 border-y border-white/20">
                 <div className="flex items-baseline justify-center gap-2">
                   <span className="text-2xl md:text-3xl text-white/60 line-through font-semibold">₹1,799</span>
-                  <span className="font-display font-black text-5xl md:text-6xl text-white">₹1,199</span>
+                  <span className="font-display font-black text-5xl md:text-6xl text-white">₹4</span>
                 </div>
                 <p className="text-sm text-white/80 mt-1">/ month</p>
                 <div className="inline-block bg-gradient-gold text-foreground text-xs font-bold px-3 py-1 rounded-full shadow-gold mt-3">
-                  SAVE ₹600 vs Starter
+                  BEST VALUE
                 </div>
                 <p className="text-sm font-semibold text-white mt-2">
-                  Bas ₹150 per class — sabse best value!
+                  Bas ₹0.50 per class — sabse best value!
                 </p>
               </div>
 
