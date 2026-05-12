@@ -48,13 +48,13 @@ const PLANS: Record<PlanKey, {
     name: "Starter Plan — 4 Sessions",
     sessions: "4 sessions per month",
     timings: "Every Sunday • 4–5 PM or 8:15–9:15 PM",
-    price: 2,
+    price: 699,
   },
   pro: {
     name: "Pro Plan — 8 Sessions",
     sessions: "8 sessions per month",
     timings: "Sat + Sun • 5:30–6:30 PM or 7–8 PM",
-    price: 4,
+    price: 1199,
   },
 };
 
@@ -112,7 +112,7 @@ const Checkout = () => {
 
     if (typeof window !== "undefined" && typeof window.fbq === "function") {
       window.fbq("track", "InitiateCheckout", {
-        value: planKey === "pro" ? 4 : 2,
+        value: planKey === "pro" ? 1199 : 699,
         currency: "INR",
         content_name: planKey === "pro" ? "Pro Plan" : "Starter Plan",
       });
