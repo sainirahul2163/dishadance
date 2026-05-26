@@ -286,7 +286,7 @@ const Index = () => {
                 <div className="relative rounded-full p-1.5 bg-gradient-primary shadow-pink">
                   <img
                     src="/disha-instructor.png"
-                    alt="Disha Subhash Jangid - Professional Dance Instructor"
+                    alt="Disha Agarwal - Professional Dance Instructor"
                     width={320}
                     height={320}
                     loading="lazy"
@@ -298,7 +298,7 @@ const Index = () => {
             </div>
 
             <div>
-              <h3 className="font-display font-black text-3xl md:text-4xl text-foreground mb-1">Disha Subhash Jangid</h3>
+              <h3 className="font-display font-black text-3xl md:text-4xl text-foreground mb-1">Disha Agarwal</h3>
               <p className="text-magenta font-semibold mb-5">Professional Dance Instructor</p>
 
               <ul className="space-y-3 mb-5">
