@@ -219,7 +219,7 @@ const Index = () => {
               size="lg"
               className="w-full bg-gradient-primary hover:opacity-95 text-primary-foreground text-base md:text-lg font-bold px-6 py-7 md:py-8 rounded-full shadow-pink hover:scale-[1.02] transition-all animate-pulse-glow h-auto min-h-[56px]"
             >
-              <Link to="/checkout?plan=starter">Abhi Join Karo — ₹699 se shuru 💖</Link>
+              <Link to="/checkout?plan=starter">Abhi Join Karo — ₹999 se shuru 💖</Link>
             </Button>
             <p className="text-xs md:text-sm text-muted-foreground text-center">
               ⚡ Instant access after payment • 🔒 Razorpay secure
@@ -519,11 +519,11 @@ const Index = () => {
 
               <div className="text-center mb-6 py-4 border-y border-primary/10">
                 <div className="flex items-baseline justify-center gap-2">
-                  <span className="text-2xl md:text-3xl text-muted-foreground line-through font-semibold">₹999</span>
-                  <span className="font-display font-black text-5xl md:text-6xl text-magenta">₹699</span>
+                  <span className="text-2xl md:text-3xl text-muted-foreground line-through font-semibold">₹1,499</span>
+                  <span className="font-display font-black text-5xl md:text-6xl text-magenta">₹999</span>
                 </div>
                 <p className="text-sm text-muted-foreground mt-1">/ month</p>
-                <p className="text-sm font-semibold text-foreground/80 mt-2">Bas ₹174 per class</p>
+                <p className="text-sm font-semibold text-foreground/80 mt-2">Bas ₹250 per class</p>
               </div>
 
               <ul className="space-y-3 mb-8">
@@ -566,15 +566,15 @@ const Index = () => {
 
               <div className="text-center mb-6 py-4 border-y border-white/20">
                 <div className="flex items-baseline justify-center gap-2">
-                  <span className="text-2xl md:text-3xl text-white/60 line-through font-semibold">₹1,799</span>
-                  <span className="font-display font-black text-5xl md:text-6xl text-white">₹1,199</span>
+                  <span className="text-2xl md:text-3xl text-white/60 line-through font-semibold">₹2,499</span>
+                  <span className="font-display font-black text-5xl md:text-6xl text-white">₹1,499</span>
                 </div>
                 <p className="text-sm text-white/80 mt-1">/ month</p>
                 <div className="inline-block bg-gradient-gold text-foreground text-xs font-bold px-3 py-1 rounded-full shadow-gold mt-3">
-                  SAVE ₹199 vs Starter
+                  SAVE ₹499 vs Starter
                 </div>
                 <p className="text-sm font-semibold text-white mt-2">
-                  Bas ₹150 per class — sabse best value!
+                  Bas ₹187 per class — sabse best value!
                 </p>
               </div>
 
@@ -675,7 +675,7 @@ const Index = () => {
             size="lg"
             className="bg-gradient-primary hover:opacity-95 text-primary-foreground text-base md:text-lg font-bold px-10 py-7 md:py-8 rounded-full shadow-pink hover:scale-[1.02] transition-all animate-pulse-glow min-h-[56px] h-auto"
           >
-            <Link to="/checkout?plan=starter">Abhi Join Karo — ₹699 se shuru</Link>
+            <Link to="/checkout?plan=starter">Abhi Join Karo — ₹999 se shuru</Link>
           </Button>
 
           <p className="text-sm md:text-base text-muted-foreground mt-4">
@@ -761,7 +761,7 @@ const Index = () => {
             asChild
             className="flex-1 bg-gradient-primary text-primary-foreground font-bold rounded-full text-sm shadow-pink animate-pulse-glow h-[52px] min-h-[52px]"
           >
-            <Link to="/checkout?plan=starter">Abhi Join Karo 💖 — ₹699+</Link>
+            <Link to="/checkout?plan=starter">Abhi Join Karo 💖 — ₹999+</Link>
           </Button>
           <a
             href="https://wa.me/917719917935"

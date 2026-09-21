@@ -73,8 +73,8 @@ const Terms = () => {
               <li>
                 Current plans:
                 <ul className="list-[circle] pl-6 mt-2 space-y-1">
-                  <li>4 Sessions/month — ₹699</li>
-                  <li>8 Sessions/month — ₹1,199</li>
+                  <li>4 Sessions/month — ₹999</li>
+                  <li>8 Sessions/month — ₹1,499</li>
                 </ul>
               </li>
               <li>Enrollment is valid for the current month only and does not carry forward.</li>

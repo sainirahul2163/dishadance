@@ -19,8 +19,8 @@ declare global {
 }
 
 const PLAN_DETAILS: Record<Exclude<PlanKey, "unknown">, { name: string; sessions: string; defaultPrice: string }> = {
-  starter: { name: "Starter Plan — 4 Sessions", sessions: "4 sessions per month", defaultPrice: "699" },
-  pro: { name: "Pro Plan — 8 Sessions", sessions: "8 sessions per month", defaultPrice: "1199" },
+  starter: { name: "Starter Plan — 4 Sessions", sessions: "4 sessions per month", defaultPrice: "999" },
+  pro: { name: "Pro Plan — 8 Sessions", sessions: "8 sessions per month", defaultPrice: "1499" },
 };
 
 const SUNDAY_SLOTS_STARTER = ["4:00 PM – 5:00 PM", "8:15 PM – 9:15 PM"];
