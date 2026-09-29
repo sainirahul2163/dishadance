@@ -33,7 +33,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         currency: 'INR',
         payment_capture: 1,
         notes: {
-          plan: plan === '4' ? 'Starter Plan - 4 Sessions' : 'Pro Plan - 8 Sessions',
+          plan:
+            plan === '4'
+              ? 'Starter Plan - 4 Sessions'
+              : plan === 'kids'
+                ? 'Kids Plan - 8 Sessions (Age 7+)'
+                : 'Pro Plan - 8 Sessions',
         },
       }),
     })

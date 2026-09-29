@@ -16,6 +16,7 @@ import {
 } from "recharts";
 import {
   ArrowLeft,
+  Baby,
   Crown,
   Download,
   GraduationCap,
@@ -51,6 +52,12 @@ type Order = {
 
 const PINK = "#FF4FA3";
 const MAGENTA = "#E91E8C";
+const VIOLET = "#9B3FDD";
+
+const planLabel = (plan: string) =>
+  plan === "kids" ? "Kids (8)" : plan === "8" ? "8 Sessions" : "4 Sessions";
+const planColor = (plan: string) =>
+  plan === "kids" ? VIOLET : plan === "8" ? MAGENTA : PINK;
 
 const RANGES = [
   { label: "Today", value: "today" },
@@ -163,7 +170,7 @@ const exportCSV = (orders: Order[]) => {
     o.name,
     o.email,
     o.phone,
-    o.plan === "8" ? "8 Sessions" : "4 Sessions",
+    planLabel(o.plan),
     o.price,
     o.razorpay_payment_id ?? "",
     format(new Date(o.created_at), "dd MMM yyyy, HH:mm"),
@@ -279,7 +286,8 @@ const Dashboard = () => {
     const totalRevenue = filteredPaid.reduce((sum, o) => sum + (o.price ?? 0), 0);
     const starter = filteredPaid.filter((o) => o.plan === "4").length;
     const pro = filteredPaid.filter((o) => o.plan === "8").length;
-    return { totalRevenue, totalOrders: filteredPaid.length, starter, pro };
+    const kids = filteredPaid.filter((o) => o.plan === "kids").length;
+    return { totalRevenue, totalOrders: filteredPaid.length, starter, pro, kids };
   }, [filteredPaid]);
 
   // Revenue series within selected range (capped at 60 days for chart readability)
@@ -318,6 +326,7 @@ const Dashboard = () => {
     () => [
       { name: "Starter (4)", value: stats.starter, color: PINK },
       { name: "Pro (8)", value: stats.pro, color: MAGENTA },
+      { name: "Kids (8)", value: stats.kids, color: VIOLET },
     ],
     [stats],
   );
@@ -447,13 +456,13 @@ const Dashboard = () => {
 
         {/* Stats */}
         {loading ? (
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-            {Array.from({ length: 4 }).map((_, i) => (
+          <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
+            {Array.from({ length: 5 }).map((_, i) => (
               <Skeleton key={i} className="h-24 rounded-2xl bg-zinc-900" />
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
             <StatCard
               icon={IndianRupee}
               label="Total Revenue"
@@ -477,6 +486,12 @@ const Dashboard = () => {
               label="Pro Sales"
               value={String(stats.pro)}
               accent="#C2185B"
+            />
+            <StatCard
+              icon={Baby}
+              label="Kids Sales"
+              value={String(stats.kids)}
+              accent={VIOLET}
             />
           </div>
         )}
@@ -523,7 +538,7 @@ const Dashboard = () => {
           <div className="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-4 md:p-5">
             <h3 className="text-sm font-bold text-zinc-200 mb-4">Plan Split</h3>
             <div className="h-64">
-              {stats.starter + stats.pro === 0 ? (
+              {stats.starter + stats.pro + stats.kids === 0 ? (
                 <div className="h-full flex items-center justify-center text-sm text-zinc-500">
                   No paid orders yet
                 </div>
@@ -653,11 +668,11 @@ const Dashboard = () => {
                         <span
                           className="text-xs font-semibold px-2 py-0.5 rounded-full"
                           style={{
-                            background: o.plan === "8" ? `${MAGENTA}33` : `${PINK}33`,
-                            color: o.plan === "8" ? MAGENTA : PINK,
+                            background: `${planColor(o.plan)}33`,
+                            color: planColor(o.plan),
                           }}
                         >
-                          {o.plan === "8" ? "8 Sessions" : "4 Sessions"}
+                          {planLabel(o.plan)}
                         </span>
                       </td>
                       <td className="px-3 py-2.5 text-right text-zinc-100 font-semibold whitespace-nowrap">

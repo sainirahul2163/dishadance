@@ -10,7 +10,7 @@ import {
   Sparkles,
 } from "lucide-react";
 
-type PlanKey = "starter" | "pro" | "unknown";
+type PlanKey = "starter" | "pro" | "kids" | "unknown";
 
 declare global {
   interface Window {
@@ -21,10 +21,18 @@ declare global {
 const PLAN_DETAILS: Record<Exclude<PlanKey, "unknown">, { name: string; sessions: string; defaultPrice: string }> = {
   starter: { name: "Starter Plan — 4 Sessions", sessions: "4 sessions per month", defaultPrice: "999" },
   pro: { name: "Pro Plan — 8 Sessions", sessions: "8 sessions per month", defaultPrice: "1499" },
+  kids: { name: "Kids Plan — 8 Sessions (Age 7+)", sessions: "8 sessions per month • Sat + Sun", defaultPrice: "1499" },
 };
 
-const SUNDAY_SLOTS_STARTER = ["4:00 PM – 5:00 PM", "8:15 PM – 9:15 PM"];
-const WEEKEND_SLOTS_PRO = ["5:30 PM – 6:30 PM", "7:00 PM – 8:00 PM"];
+const SUNDAY_SLOTS_STARTER = ["8:30 PM – 9:30 PM"];
+const WEEKEND_SLOTS_PRO = ["5:30 PM – 6:30 PM", "7:30 PM – 8:30 PM"];
+const WEEKEND_SLOTS_KIDS = ["6:30 PM – 7:30 PM"];
+
+const CONTENT_NAMES: Record<Exclude<PlanKey, "unknown">, string> = {
+  starter: "Starter Plan",
+  pro: "Pro Plan",
+  kids: "Kids Plan",
+};
 
 const Confetti = () => {
   const pieces = useMemo(
@@ -82,6 +90,7 @@ const ThankYou = () => {
   let planKey: PlanKey;
   if (rawPlan === "4" || rawPlan === "starter") planKey = "starter";
   else if (rawPlan === "8" || rawPlan === "pro") planKey = "pro";
+  else if (rawPlan === "kids") planKey = "kids";
   else planKey = "unknown";
 
   const planMeta = planKey === "unknown" ? null : PLAN_DETAILS[planKey];
@@ -114,7 +123,7 @@ const ThankYou = () => {
       window.fbq("track", "Purchase", {
         value: priceNum,
         currency: "INR",
-        content_name: planKey === "pro" ? "Pro Plan" : "Starter Plan",
+        content_name: CONTENT_NAMES[planKey],
       });
       sessionStorage.setItem(key, "true");
     }
@@ -212,12 +221,12 @@ const ThankYou = () => {
                   <TabsTrigger value="sunday">Sunday</TabsTrigger>
                 </TabsList>
                 <TabsContent value="saturday" className="mt-4 space-y-3 animate-fade-in">
-                  {WEEKEND_SLOTS_PRO.map((s) => (
+                  {(planKey === "kids" ? WEEKEND_SLOTS_KIDS : WEEKEND_SLOTS_PRO).map((s) => (
                     <SlotCard key={`sat-${s}`} time={s} />
                   ))}
                 </TabsContent>
                 <TabsContent value="sunday" className="mt-4 space-y-3 animate-fade-in">
-                  {WEEKEND_SLOTS_PRO.map((s) => (
+                  {(planKey === "kids" ? WEEKEND_SLOTS_KIDS : WEEKEND_SLOTS_PRO).map((s) => (
                     <SlotCard key={`sun-${s}`} time={s} />
                   ))}
                 </TabsContent>

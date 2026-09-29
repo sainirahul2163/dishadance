@@ -18,7 +18,7 @@ import {
   Zap,
 } from "lucide-react";
 
-type PlanKey = "starter" | "pro";
+type PlanKey = "starter" | "pro" | "kids";
 
 declare global {
   interface Window {
@@ -39,24 +39,46 @@ const loadRazorpayScript = (): Promise<boolean> =>
   });
 
 const PLANS: Record<PlanKey, {
+  label: string;
   name: string;
+  shortName: string;
   sessions: string;
   timings: string;
   price: number;
+  // Value stored in the orders table's `plan` column
+  dbPlan: string;
 }> = {
   starter: {
+    label: "⭐ Starter Plan",
     name: "Starter Plan — 4 Sessions",
+    shortName: "Starter Plan",
     sessions: "4 sessions per month",
-    timings: "Every Sunday • 4–5 PM or 8:15–9:15 PM",
+    timings: "Every Sunday • 8:30–9:30 PM",
     price: 999,
+    dbPlan: "4",
   },
   pro: {
+    label: "👑 Pro Plan",
     name: "Pro Plan — 8 Sessions",
+    shortName: "Pro Plan",
     sessions: "8 sessions per month",
-    timings: "Sat + Sun • 5:30–6:30 PM or 7–8 PM",
+    timings: "Sat + Sun • 5:30–6:30 PM or 7:30–8:30 PM",
     price: 1499,
+    dbPlan: "8",
+  },
+  kids: {
+    label: "🎈 Kids Plan",
+    name: "Kids Plan — 8 Sessions (Age 7+)",
+    shortName: "Kids Plan",
+    sessions: "8 sessions per month • Kids 7+",
+    timings: "Sat + Sun • 6:30–7:30 PM",
+    price: 1499,
+    dbPlan: "kids",
   },
 };
+
+const parsePlanKey = (value: string | null): PlanKey =>
+  value === "pro" || value === "kids" ? value : "starter";
 
 const checkoutSchema = z.object({
   name: z
@@ -96,7 +118,7 @@ const validatePhone = (phone: string): string | null => {
 
 const Checkout = () => {
   const [params] = useSearchParams();
-  const initialPlanKey: PlanKey = params.get("plan") === "pro" ? "pro" : "starter";
+  const initialPlanKey = parsePlanKey(params.get("plan"));
   const [planKey, setPlanKey] = useState<PlanKey>(initialPlanKey);
   const plan = PLANS[planKey];
   const { toast } = useToast();
@@ -112,9 +134,9 @@ const Checkout = () => {
 
     if (typeof window !== "undefined" && typeof window.fbq === "function") {
       window.fbq("track", "InitiateCheckout", {
-        value: planKey === "pro" ? 1499 : 999,
+        value: PLANS[planKey].price,
         currency: "INR",
-        content_name: planKey === "pro" ? "Pro Plan" : "Starter Plan",
+        content_name: PLANS[planKey].shortName,
       });
       sessionStorage.setItem(key, "true");
     }
@@ -146,7 +168,7 @@ const Checkout = () => {
     setErrors({});
     setSubmitting(true);
 
-    const planParam = planKey === "pro" ? "8" : "4";
+    const planParam = plan.dbPlan;
     const priceNum = plan.price;
     const nameParam = encodeURIComponent(result.data.name);
 
@@ -201,8 +223,7 @@ const Checkout = () => {
         currency: "INR",
         order_id: orderData.orderId,
         name: "Disha's Dance Academy",
-        description:
-          planKey === "pro" ? "Pro Plan - 8 Sessions" : "Starter Plan - 4 Sessions",
+        description: plan.name,
         image: "/logo.png",
         prefill: {
           name: result.data.name,
@@ -317,36 +338,43 @@ const Checkout = () => {
           </div>
 
           {/* Plan selector */}
-          <div className="grid grid-cols-2 gap-3 mb-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
             {(Object.keys(PLANS) as PlanKey[]).map((key) => {
               const p = PLANS[key];
               const selected = planKey === key;
+              const isKids = key === "kids";
               return (
                 <button
                   type="button"
                   key={key}
                   onClick={() => setPlanKey(key)}
-                  className={`text-left rounded-xl p-3 transition-all border-2 ${
+                  className={`text-left rounded-xl p-3 transition-all border-2 flex items-center justify-between gap-3 sm:block ${
                     selected
-                      ? "border-magenta bg-blush"
+                      ? isKids
+                        ? "border-violet bg-lavender"
+                        : "border-magenta bg-blush"
                       : "border-border bg-white hover:border-primary/30"
                   }`}
                 >
-                  {selected && (
-                    <div className="inline-block bg-magenta text-white text-[10px] font-bold px-2 py-0.5 rounded-full mb-1.5">
-                      ✓ Selected
+                  <div>
+                    {selected && (
+                      <div
+                        className={`inline-block ${isKids ? "bg-violet" : "bg-magenta"} text-white text-[10px] font-bold px-2 py-0.5 rounded-full mb-1.5`}
+                      >
+                        ✓ Selected
+                      </div>
+                    )}
+                    <div className="font-bold text-sm text-foreground">
+                      {p.label}
                     </div>
-                  )}
-                  <div className="font-bold text-sm text-foreground">
-                    {key === "pro" ? "👑 Pro Plan" : "⭐ Starter Plan"}
+                    <div className="text-xs text-muted-foreground sm:my-1">
+                      {p.sessions}
+                    </div>
                   </div>
-                  <div className="text-xs text-muted-foreground my-1">
-                    {p.sessions}
-                  </div>
-                  <div className="text-xl font-bold text-magenta">
+                  <div className={`text-xl font-bold shrink-0 ${isKids ? "text-violet" : "text-magenta"}`}>
                     ₹{p.price.toLocaleString("en-IN")}
                   </div>
-                  <div className="text-[11px] text-muted-foreground mt-0.5">
+                  <div className="hidden sm:block text-[11px] text-muted-foreground mt-0.5">
                     {p.timings}
                   </div>
                 </button>
@@ -383,6 +411,11 @@ const Checkout = () => {
           <p className="text-sm text-muted-foreground mt-1">
             Sirf 30 seconds mein done! Class link WhatsApp pe milega.
           </p>
+          {planKey === "kids" && (
+            <p className="mt-3 text-xs md:text-sm font-medium text-violet bg-lavender border border-[hsl(var(--violet)/0.2)] rounded-xl px-3 py-2">
+              🎈 Kids plan: Parent ka naam aur WhatsApp number daalein. Bachche ka naam aur age WhatsApp pe bata dena.
+            </p>
+          )}
 
           <form onSubmit={handleSubmit} className="mt-5 space-y-4" noValidate>
             <div className="space-y-1.5">

@@ -73,8 +73,9 @@ const Terms = () => {
               <li>
                 Current plans:
                 <ul className="list-[circle] pl-6 mt-2 space-y-1">
-                  <li>4 Sessions/month — ₹999</li>
-                  <li>8 Sessions/month — ₹1,499</li>
+                  <li>4 Sessions/month (Women) — ₹999</li>
+                  <li>8 Sessions/month (Women) — ₹1,499</li>
+                  <li>Kids Plan, 8 Sessions/month (Age 7+) — ₹1,499</li>
                 </ul>
               </li>
               <li>Enrollment is valid for the current month only and does not carry forward.</li>
@@ -101,12 +102,15 @@ const Terms = () => {
           <Section number={5} title="Class Schedule & Access">
             <ul className="list-disc pl-6 space-y-2">
               <li>
-                <span className="font-semibold">4 Session Plan:</span> Every Sunday — 4:00–5:00 PM
-                or 8:15–9:15 PM
+                <span className="font-semibold">4 Session Plan:</span> Every Sunday — 8:30–9:30 PM
               </li>
               <li>
                 <span className="font-semibold">8 Session Plan:</span> Every Saturday & Sunday —
-                5:30–6:30 PM or 7:00–8:00 PM
+                5:30–6:30 PM or 7:30–8:30 PM
+              </li>
+              <li>
+                <span className="font-semibold">Kids Plan (Age 7+):</span> Every Saturday & Sunday —
+                6:30–7:30 PM
               </li>
               <li>Classes are conducted online via Google Meet.</li>
               <li>

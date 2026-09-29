@@ -111,7 +111,7 @@ const faqs = [
   },
   {
     q: "Kids ke liye kya age group hai?",
-    a: "8 saal se 16 saal tak ke bachche easily join kar sakte hain. Mummy bhi saath mein enjoy kar sakti hain!",
+    a: "7 saal aur usse bade bachche hamare special Kids Batch mein join kar sakte hain — har Saturday & Sunday, 6:30–7:30 PM. Mummy bhi Women's batch mein saath enjoy kar sakti hain!",
   },
   {
     q: "Payment ke baad kya hoga?",
@@ -426,7 +426,7 @@ const Index = () => {
 
       {/* ============== SCHEDULE ============== */}
       <section className="py-16 md:py-24 bg-gradient-hero">
-        <div className="container max-w-5xl mx-auto px-4">
+        <div className="container max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
             <p className="text-primary font-semibold mb-2 text-sm md:text-base uppercase tracking-wider">
               📅 Timings
@@ -435,7 +435,7 @@ const Index = () => {
             <p className="text-base md:text-lg text-muted-foreground">Apne hisaab se timing chuno 🕐</p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div className="bg-white rounded-3xl p-6 md:p-8 shadow-soft border-2 border-primary/10">
               <div className="flex items-center gap-3 mb-5">
                 <div className="w-12 h-12 rounded-2xl bg-blush flex items-center justify-center">
@@ -443,17 +443,13 @@ const Index = () => {
                 </div>
                 <div>
                   <h3 className="text-xl md:text-2xl font-display font-bold text-foreground">4 Sessions Plan</h3>
-                  <p className="text-sm text-muted-foreground">Every Sunday</p>
+                  <p className="text-sm text-muted-foreground">Every Sunday • For Women 👩</p>
                 </div>
               </div>
               <div className="space-y-3">
                 <div className="flex items-center justify-between p-3 rounded-xl bg-blush">
-                  <span className="font-semibold text-foreground">🌞 Sunday</span>
-                  <span className="font-bold text-magenta">4:00 – 5:00 PM IST</span>
-                </div>
-                <div className="flex items-center justify-between p-3 rounded-xl bg-blush">
                   <span className="font-semibold text-foreground">🌙 Sunday</span>
-                  <span className="font-bold text-magenta">8:15 – 9:15 PM IST</span>
+                  <span className="font-bold text-magenta">8:30 – 9:30 PM IST</span>
                 </div>
               </div>
             </div>
@@ -468,7 +464,7 @@ const Index = () => {
                 </div>
                 <div>
                   <h3 className="text-xl md:text-2xl font-display font-bold text-white">8 Sessions Plan</h3>
-                  <p className="text-sm text-white/80">Every Saturday & Sunday</p>
+                  <p className="text-sm text-white/80">Every Saturday & Sunday • For Women 👩</p>
                 </div>
               </div>
               <div className="space-y-3">
@@ -478,7 +474,28 @@ const Index = () => {
                 </div>
                 <div className="flex items-center justify-between p-3 rounded-xl bg-white/15 backdrop-blur">
                   <span className="font-semibold text-white">💃 Sat & Sun</span>
-                  <span className="font-bold text-white">7:00 – 8:00 PM IST</span>
+                  <span className="font-bold text-white">7:30 – 8:30 PM IST</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gradient-kids-card rounded-3xl p-6 md:p-8 shadow-violet border-2 border-[hsl(var(--violet)/0.25)] relative md:col-span-2 lg:col-span-1 md:max-w-md md:mx-auto lg:max-w-none md:w-full">
+              <div className="absolute -top-3 right-6 bg-gradient-kids text-white text-xs font-bold px-3 py-1 rounded-full shadow-violet">
+                🎈 NEW
+              </div>
+              <div className="flex items-center gap-3 mb-5">
+                <div className="w-12 h-12 rounded-2xl bg-lavender flex items-center justify-center">
+                  <Calendar className="w-6 h-6 text-violet" />
+                </div>
+                <div>
+                  <h3 className="text-xl md:text-2xl font-display font-bold text-foreground">Kids Weekend Plan</h3>
+                  <p className="text-sm text-muted-foreground">Every Saturday & Sunday • Kids 7+ 🧒</p>
+                </div>
+              </div>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between p-3 rounded-xl bg-lavender">
+                  <span className="font-semibold text-foreground">🎈 Sat & Sun</span>
+                  <span className="font-bold text-violet">6:30 – 7:30 PM IST</span>
                 </div>
               </div>
             </div>
@@ -492,7 +509,7 @@ const Index = () => {
 
       {/* ============== PRICING ============== */}
       <section id="pricing" className="py-16 md:py-24 bg-white">
-        <div className="container max-w-5xl mx-auto px-4">
+        <div className="container max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
             <p className="text-[hsl(var(--gold-deep))] font-bold mb-1 text-xs md:text-sm uppercase tracking-wider">
               💖 Limited Time
@@ -506,7 +523,7 @@ const Index = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6 md:gap-8 max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-6 max-w-4xl lg:max-w-none mx-auto">
             {/* Starter */}
             <div className="bg-gradient-card rounded-3xl p-6 md:p-8 border-2 border-primary/15 shadow-soft hover:-translate-y-1 transition-all">
               <div className="text-center mb-6">
@@ -514,7 +531,7 @@ const Index = () => {
                   Starter Plan
                 </div>
                 <h3 className="text-2xl md:text-3xl font-display font-black text-foreground mb-1">4 Sessions</h3>
-                <p className="text-sm text-muted-foreground">Per Month</p>
+                <p className="text-sm text-muted-foreground">Per Month • For Women 👩</p>
               </div>
 
               <div className="text-center mb-6 py-4 border-y border-primary/10">
@@ -529,7 +546,7 @@ const Index = () => {
               <ul className="space-y-3 mb-8">
                 {[
                   "Every Sunday classes",
-                  "Choose: 4–5 PM or 8:15–9:15 PM",
+                  "Timing: 8:30–9:30 PM",
                   "Bollywood + basics",
                   "Google Meet sessions",
                   "Beginner friendly 🌸",
@@ -561,7 +578,7 @@ const Index = () => {
                   Pro Plan
                 </div>
                 <h3 className="text-2xl md:text-3xl font-display font-black text-white mb-1">8 Sessions</h3>
-                <p className="text-sm text-white/80">Per Month</p>
+                <p className="text-sm text-white/80">Per Month • For Women 👩</p>
               </div>
 
               <div className="text-center mb-6 py-4 border-y border-white/20">
@@ -582,7 +599,7 @@ const Index = () => {
                 {[
                   "✨ Most chosen by our students",
                   "Saturday + Sunday — dono din!",
-                  "Choose: 5:30–6:30 PM or 7–8 PM",
+                  "Choose: 5:30–6:30 PM or 7:30–8:30 PM",
                   "Bollywood + Hip-Hop + more",
                   "Personal attention 💕",
                   "Best value — save more!",
@@ -600,6 +617,54 @@ const Index = () => {
                 className="w-full bg-white hover:bg-white/95 text-magenta font-bold rounded-full py-6 text-base shadow-gold hover:scale-[1.02] transition-transform min-h-[56px] h-auto"
               >
                 <Link to="/checkout?plan=pro">Pro Plan Lo →</Link>
+              </Button>
+            </div>
+
+            {/* Kids */}
+            <div className="bg-gradient-kids-card rounded-3xl p-6 md:p-8 border-2 border-[hsl(var(--violet)/0.25)] shadow-violet hover:-translate-y-1 transition-all relative md:col-span-2 lg:col-span-1 md:max-w-md md:mx-auto lg:max-w-none md:w-full">
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-kids text-white text-xs font-bold px-5 py-1.5 rounded-full shadow-violet whitespace-nowrap">
+                🎈 NEW — FOR KIDS
+              </div>
+
+              <div className="text-center mb-6 mt-2">
+                <div className="inline-block px-4 py-1 rounded-full bg-lavender text-violet text-xs font-bold uppercase tracking-wide mb-3">
+                  Kids Plan
+                </div>
+                <h3 className="text-2xl md:text-3xl font-display font-black text-foreground mb-1">8 Sessions</h3>
+                <p className="text-sm text-muted-foreground">Per Month • Kids 7+ 🧒</p>
+              </div>
+
+              <div className="text-center mb-6 py-4 border-y border-[hsl(var(--violet)/0.15)]">
+                <div className="flex items-baseline justify-center gap-2">
+                  <span className="text-2xl md:text-3xl text-muted-foreground line-through font-semibold">₹2,499</span>
+                  <span className="font-display font-black text-5xl md:text-6xl text-violet">₹1,499</span>
+                </div>
+                <p className="text-sm text-muted-foreground mt-1">/ month</p>
+                <p className="text-sm font-semibold text-foreground/80 mt-2">Bas ₹187 per class</p>
+              </div>
+
+              <ul className="space-y-3 mb-8">
+                {[
+                  "Sirf bachchon ka batch — age 7+",
+                  "Saturday + Sunday — dono din!",
+                  "Timing: 6:30–7:30 PM",
+                  "Fun Bollywood + Hip-Hop for kids",
+                  "Confidence & fitness boost 🌟",
+                  "Google Meet sessions",
+                ].map((f, i) => (
+                  <li key={i} className="flex items-start gap-2 text-sm md:text-base text-foreground/80">
+                    <Check className="w-5 h-5 text-violet flex-shrink-0 mt-0.5" strokeWidth={3} />
+                    {f}
+                  </li>
+                ))}
+              </ul>
+
+              <Button
+                asChild
+                size="lg"
+                className="w-full bg-gradient-kids hover:opacity-95 text-white font-bold rounded-full py-6 text-base shadow-violet min-h-[56px] h-auto"
+              >
+                <Link to="/checkout?plan=kids">Kids Plan Lo →</Link>
               </Button>
             </div>
           </div>
