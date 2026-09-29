@@ -112,7 +112,9 @@ const ThankYou = () => {
 
   useEffect(() => {
     if (planKey === "unknown") return;
-    const paymentId = params.get("payment_id") || params.get("paymentId") || `${planKey}_${rawPrice ?? "x"}`;
+    const paymentId = params.get("payment_id") || params.get("paymentId");
+    // Only count a Purchase for a real completed payment
+    if (!paymentId) return;
     const key = `purchase_fired_${paymentId}`;
     if (sessionStorage.getItem(key)) return;
 

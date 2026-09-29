@@ -140,8 +140,7 @@ const Checkout = () => {
       });
       sessionStorage.setItem(key, "true");
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [planKey]);
 
   const update = (key: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value;
@@ -267,7 +266,7 @@ const Checkout = () => {
             description: "Aapki seat pakki ho gayi hai!",
           });
 
-          navigate(`/thank-you?plan=${planParam}&price=${priceNum}&name=${nameParam}`);
+          navigate(`/thank-you?plan=${planParam}&price=${priceNum}&name=${nameParam}&payment_id=${encodeURIComponent(response.razorpay_payment_id)}`);
         },
         modal: {
           ondismiss: () => {
