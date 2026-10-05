@@ -12,6 +12,7 @@ import Checkout from "./pages/Checkout.tsx";
 import ThankYou from "./pages/ThankYou.tsx";
 import Admin from "./pages/Admin.tsx";
 import ScrollToTop from "./components/ScrollToTop";
+import RouteSeo from "./components/RouteSeo";
 
 const queryClient = new QueryClient();
 
@@ -22,6 +23,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <ScrollToTop />
+        <RouteSeo />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/terms" element={<Terms />} />
